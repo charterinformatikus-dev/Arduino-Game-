@@ -1,18 +1,28 @@
 #include <Arduino.h>
 
-// put function declarations here:
-int myFunction(int, int);
+#define X_PIN 1
+#define Y_PIN 2
+#define SW_PIN 4
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(115200);
+  delay(1000);
+
+  pinMode(SW_PIN, INPUT_PULLUP);  // Gomb felhúzóellenállással
+  Serial.println("Joystick értékek olvasása elindult!");
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
+  int xValue = analogRead(X_PIN);  // X tengely
+  int yValue = analogRead(Y_PIN);  // Y tengely
+  int swValue = digitalRead(SW_PIN); // Gomb (0 = lenyomva, 1 = felengedve)
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  Serial.print("X: ");
+  Serial.print(xValue);
+  Serial.print(" | Y: ");
+  Serial.print(yValue);
+  Serial.print(" | SW: ");
+  Serial.println(swValue == LOW ? "LENYOMVA" : "FELENGEDVE");
+
+  delay(200);  // Kis szünet az olvashatóság kedvéért
 }
